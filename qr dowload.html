@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Download</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>QR-код для "Hey"</h2>
+  <canvas id="qrCanvas" width="200" height="200"></canvas><br>
+  <button id="downloadBtn">Download QR Code</button>
+
+  <script>
+    const qrData = [
+      [1,1,1,1,1,1,1,0,0,0,1,0,1,1,1,1,1,1,1,1,1],
+      [1,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,1,0,1],
+      [1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1],
+      [1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1],
+      [1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1],
+      [1,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,1,0,1],
+      [1,1,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,1,1,0,1],
+      [0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0],
+      [0,1,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,0,0,0,1],
+      [0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
+      [1,0,0,1,0,0,0,0,1,0,1,0,1,1,1,1,1,1,1,0,1],
+      [0,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [0,1,1,1,1,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1],
+    ];
+
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    const scale = 8;
+
+
+    qrData.forEach((row, y) => {
+      row.forEach((cell, x) => {
+        ctx.fillStyle = cell ? '#000' : '#fff';
+        ctx.fillRect(x * scale, y * scale, scale, scale);
+      });
+    });
+
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'qr-hey.jpg';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    });
+  </script>
+
+</body>
+</html>
